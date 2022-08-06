@@ -245,8 +245,8 @@ export default abstract class Command {
   protected async parse<F, G, A extends { [name: string]: any }>(options?: Interfaces.Input<F, G>, argv = this.argv): Promise<Interfaces.ParserOutput<F, G, A>> {
     if (!options) options = this.constructor as any
     const opts = {context: this, ...options}
-    // the spread operator doesn't work with getters so we have to manually add it here
-    opts.flags = options?.flags
+    // the spread operator doesn't work with getters so we have to manually add them here
+    opts.flags = Object.assign({}, options?.flags, options?.globalFlags)
     return Parser.parse(argv, opts)
   }
 
